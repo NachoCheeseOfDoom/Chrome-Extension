@@ -12,13 +12,20 @@ inputBtn.addEventListener('click', function () {
 
 function renderLead() {
 
-  let listItem = `
+  let listItem = ` 
   <li> 
     <a href="${inputEl.value}" target='_blank'> 
-      ${inputEl.value} 
-    </a> 
+      ${inputEl.value}  
+    </a>
+    <a id='trashCanLink'>
+    <img id='trashCanIcon' src="delete.png" alt="Trash can icon">
+    </a>  
   </li>`
-  ulEl.innerHTML += listItem
+  if (inputEl.value === '') {
+    return
+  } else {
+    ulEl.innerHTML += listItem
+  }
 }
 
 
