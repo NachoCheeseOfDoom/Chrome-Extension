@@ -7,7 +7,7 @@ const inputEl = document.getElementById('input-el');
 const ulEl = document.getElementById('ul-el')
 
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"))
-// console.log(leadsFromLocalStorage)
+console.log(leadsFromLocalStorage)
 
 if (leadsFromLocalStorage) {
   myLeads = leadsFromLocalStorage
@@ -42,26 +42,36 @@ deleteBtn.addEventListener('dblclick', function () {
 });
 
 function deleteLocalStorage(index) {
-  let leadIndex = JSON.parse(localStorage.getItem(`myLeads`))
-  leadIndex.splice(index, 1);
-  localStorage.setItem('myLeads', JSON.stringify(leadIndex));
-  render(leadIndex)
+  myLeads.splice(index, 1);
+  localStorage.setItem('myLeads', JSON.stringify(myLeads));
+  render(myLeads)
 };
 
 function render(leads) {
-
-  let listItems = ""
+  ulEl.innerHTML = '';
   for (let i = 0; i < leads.length; i++) {
-    listItems += `
-    <li> 
-      <a href="${leads[i]}" target='_blank'> 
-        ${leads[i]}
-        </a>
-      <a id='trashCanLink' onclick="deleteLocalStorage(${i})">
-        <img id='trashCanIcon' src="delete.png" alt="Trash can icon">
-      </a>  
-    </li>`
+    const listItem = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = leads[i];
+    link.target = '_blank';
+    link.textContent = leads[i];
+
+    const trashCanLink = document.createElement('a');
+    trashCanLink.id = 'trashCanLink';
+    trashCanLink.addEventListener('click', function () {
+      deleteLocalStorage(i);
+    });
+
+    const trashCanIcon = document.createElement('img');
+    trashCanIcon.id = 'trashCanIcon';
+    trashCanIcon.src = 'delete.png';
+    trashCanIcon.alt = 'Trash can icon';
+
+    trashCanLink.appendChild(trashCanIcon);
+
+    listItem.appendChild(link);
+    listItem.appendChild(trashCanLink);
+    ulEl.appendChild(listItem);
   }
-  ulEl.innerHTML = listItems
 }
 
